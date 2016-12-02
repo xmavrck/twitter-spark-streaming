@@ -37,7 +37,9 @@ After you have installed java,you also need to set JAVA_HOME enviroment variable
 So firstly open your environment file using this command  
 ```sudo nano /etc/environment```  
 and then add this line to the file  
-```JAVA_HOME=your-java-installation-home-directory```  
+```
+JAVA_HOME=your-java-installation-home-directory
+```  
 In my vm,the path was /usr/lib/jvm/java-8-oracle.
 And then you need to source to load variables by running this command  
 ```source /etc/environment```  
