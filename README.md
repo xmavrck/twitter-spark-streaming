@@ -38,7 +38,7 @@ So firstly open your environment file using this command
 ```sudo nano /etc/environment```  
 and then add this line to the file  
 ```JAVA_HOME=your-java-installation-home-directory```  
-in my vm,the path was /usr/lib/jvm/java-8-oracle
+In my vm,the path was /usr/lib/jvm/java-8-oracle.
 And then you need to source to load variables by running this command  
 ```source /etc/environment```  
 And then you can verify it by using this command  
