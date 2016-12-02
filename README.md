@@ -254,7 +254,8 @@ cd SPARK_HOME
 ```
 e) Then you can submit your spark application like this  
 ```
-./bin/spark-submit --class main-class ../monitoring-your-jar-file-path```  
+./bin/spark-submit --class main-class ../monitoring-your-jar-file-path
+```  
 Example:
 ```
 ./bin/spark-submit 
