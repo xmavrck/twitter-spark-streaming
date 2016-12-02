@@ -13,11 +13,11 @@ After this,Apache Spark Streaming comes into play which is real-time micro batch
 
 # Steps for setting up enviroment: 
 
-#### Setup your machine or VM on cloud
+### Setup your machine or VM on cloud
 We are having our own private cloud,so we just create a new instance(or launch vm) on cloud and then setup the enviroment.We also have DevOps guys which can just create a script to setup the enviroment.But if we want to learn this demo completely.Then I have described the complete procedure below that how and from where  you need to download those packages.
 If any user has its aws server or cloud provider,then he can just create their new instance on cloud and just follow the steps given below to setup the enviroment.
 
-#### Setup Java 1.8
+### Setup Java 1.8
 a) Add the WebUpd8 Team Personal Package Archive (PPA) by using this command  
 ```sudo apt-add-repository ppa:webupd8team/java```  
 b) The Installation  
@@ -47,7 +47,7 @@ And then you can verify it by using this command
 ```echo $JAVA_HOME```  
 It will show the path you have set up in your environment  
 
-#### Create/Register your own Twitter App and Get Oauth Credentials.
+### Create/Register your own Twitter App and Get Oauth Credentials.
 
 Firstly we need to create an app on Twitter (if we don't have account on twitter ,then we need to signup).  
 We are doing this to get Oauth Crendentials so that our Apache Nifi can stream tweets from Twitter using these Oauth Crendentials.This means we don't need specify our twitter credentials in Apache Nifi while fetching tweets.  
@@ -62,7 +62,7 @@ The Oauth credentials we require are:
 - access token
 - access token secret
 
-#### Setup Apache Kafka
+### Setup Apache Kafka
 
 Firstly we need to download Apache kafka from the link  given below  
 ```
@@ -87,7 +87,7 @@ Ex:
 clientPort=2181
 ```  
 
-#### Setup Apache Spark
+### Setup Apache Spark
 
 Firstly we need to download apache spark from this link:  
 ```
@@ -102,7 +102,7 @@ spark-shell
 ```  
 This will launch the spark shell.  
 
-#### Setup Apache Nifi
+### Setup Apache Nifi
 Firstly we need to download apache nifi from this link:  
 ```
 https://nifi.apache.org/download.html
@@ -124,7 +124,7 @@ nifi.web.http.port=8091 // this port was initially 8080,but I modified it as it 
 ```  
 
 
-#### Setup Apache Maven  
+### Setup Apache Maven  
 
 Maven is a project building tool in which define all our dependencies in a pom(Project Object Folder) file and then maven automatically builds the project and add dependencies to the jar either from local or remote repository.  
 So we can install it using command:  
@@ -135,18 +135,18 @@ So we can install it using command:
 
 Before we start with creating actual nifi workflow, we need to launch some other process first.
 
-#### Launch Apache Zookeeper
+### Launch Apache Zookeeper
 
 We can launch the apache zookeeper process by this command.  
 ```KAFKA_HOME/bin/zookeeper-server-start.sh config/zookeeper.properties```
 
-####  Launch Apache Kafka
+###  Launch Apache Kafka
 
 We can launch the apache kafka by this command.  
 ```KAFKA_HOME/bin/kafka-server-start.sh config/server.properties```
 
 
-####  Create Kafka Topic
+###  Create Kafka Topic
 
 Kafka Topic is like grouping messages of related data as we have tables in database.  
 So topic is like a container with which messages are associate.  
@@ -162,7 +162,7 @@ c) partitions = 1 (we can increase partitions if we want to read data concurrent
 d) topic = tweets-live-streaming (this is the topic name in which we are storing tweets)
 ```  
 
-####  Create nifi flow
+###  Create nifi flow
 
 We can launch nifi by using these commands:  
 Firstly go to your nifi home directory first  
@@ -178,20 +178,20 @@ After sometime,you can launch your nifi in your browser with this link
 http://hostname:8080/nifi/
 ```  
 
-#### Create GetTwitter Processor
+### Create GetTwitter Processor
 a) Now in menu bar in top left side,there is one option processor,you need to drag that onto the workflow sheet.  
 b) When you drag that processor,a pop "Add Processor" will be shown.In the Filter field,you will start typing GetTwitter and in the results,you will see the GetTwitter  
 Processor and then just add it.  
 c) Now you will see the GetTwitter Processor on your workflow sheet and then you need to select that processor and just right on it.Then you need to select Configure option.  
 d) After you select this,you will see a pop up "Configure Processor" .In this popup,you have four tabs and you need to change these attributes in these:  
-#### Settings :
+### Settings :
 ``` 
 Name: GetTwitter_Processor (optional)
 We have checkbox for auto terminate the relationships .We don't need to check the success checkbox right now.This I have explained in furthur steps(while creating Publish Kafka Processor).
 ```  
-#### Scheduling :
+### Scheduling :
 There is a progress bar in which you can manage latency and throughput.So if you want realtime tweet streaming,you can set this progress bar to 0ms.This means lower latency and if we want higher throughput means efficient resource management then we can increase the value of progress bar accordingly.  
-#### Properties:
+### Properties:
 The properties that are in bold are manadatory for this processor.  
 ```
 Twitter Endpoint : Sample Endpoint is default value.This enpoint provides us the public data or tweets.Other two options are Firehose EndPoint(provides access to all tweets) and Filter Endpoint(we can filter the data on the basis of terms and our followers userid's ).
@@ -209,16 +209,16 @@ We can learn more about this GetTwitter Processor at
 https://nifi.apache.org/docs/nifi-docs/components/org.apache.nifi.processors.twitter.GetTwitter/
 ```
 
-#### Create PublishKafka Processor
+### Create PublishKafka Processor
 Now we will create PublishKafka Processor in which tweets will be publish on our ```tweets-live-streaming``` kafka topic from GetTwitter Processor.  
 a) Drag a processor on workflow sheet and then you will see the "Add Processor" popup,then you need to type "PublishKafka" in filter box,and then add the PublishKafka processor.After you add that processor,selct it and right click on it and click configure.  
 b) Now again you will see "Configure Processor" popup,then you need to change these attributes of following tabs:  
-#### Settings:  
+### Settings:  
 ```
 Name: PublishKafka_Processor (optional)
 Tick the failure and success checkbox.Because we don't have furthur processsor in the worksheet where we can send data from kafka.So that's why we want to auto terminate relationships here in both cases i.e. success or failure.
 ```
-#### Properties:
+### Properties:
 ```
 Kafka Brokers: kafka-node-hostname:kafka-port (ex: your-vm-ip:9092)
 Topic Name: tweets-live-streaming
@@ -228,17 +228,17 @@ If you want to learn more about PublishKafka Processor,follow this link
 https://nifi.apache.org/docs/nifi-docs/components/org.apache.nifi.processors.kafka.pubsub.PublishKafka/
 ```
 
-#### Create Connection between GetTwitter and PublishKafka Processor
+### Create Connection between GetTwitter and PublishKafka Processor
 
 As we know our both processors are set now,now we need to create connection between them. So when we mouse over on GetTwitter Processor,we will an arrow and so we need to drag that arrow to PublishKafka processor and connects that arrow with it.Then you will see a "create connection" pop up and then just check on "success" checkbox means if GetTwitter Processor successfully started then it will routed(means data will be routed) to PublishKafka Processor.  
 
-#### Start the Nifi Workflow
+### Start the Nifi Workflow
 Now you need to select the GetTwitter Processor,then right click on it and click start.
 In the same way, select the PublishKafka Processor,then right click on it and click start.
 And in short time,if all configurations are done properly according to the doc then you start seeing the live flow of data on UI from twitter to kafka.  
 As twitter is writting data to Kafka,So you will see the write bytes updating after some interval in GetTwitter Processor and in PublishKafka Processor,you will see read bytes updating as Kafka is reading from Twitter.  
 
-#### Launching Spark Streaming:
+### Launching Spark Streaming:
 a) First you need to clone the code from git repo.  
 b)  After you have cloned the code and now go to the home directory of your Spark Streaming Project which is containing src folder and other necessary files using this command  
 ```
