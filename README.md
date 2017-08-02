@@ -262,3 +262,4 @@ Example:
 --class com.xenonstack.spark_streaming_tweets_kafka.ReadTweetsFromKafka /home/ubuntu/monitoring-spark-streaming-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
 This will launch your spark streaming job and you will start seeing live streaming of tweets on your console.
+
